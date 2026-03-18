@@ -39,6 +39,16 @@
 			font-size: 1.3rem;
 			font-weight: 700;
 			letter-spacing: 2px;
+			display: flex;
+			align-items: center;
+		}
+
+		.logo img {
+			width: 32px;
+			height: 32px;
+			object-fit: contain;
+			margin-right: 10px;
+			border-radius: 4px;
 		}
 
 		.logo span { color: #666; font-weight: 300; }
@@ -405,6 +415,9 @@
 			transition: all 0.3s;
 			opacity: 0;
 			transform: translateY(20px);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 		}
 
 		.mode-card.visible { opacity: 1; transform: translateY(0); }
@@ -415,8 +428,18 @@
 		}
 
 		.mode-icon {
-			font-size: 2rem;
+			width: 60px;
+			height: 40px;
 			margin-bottom: 15px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.mode-icon svg {
+			width: 100%;
+			height: 100%;
+			stroke: #666;
 		}
 
 		.mode-name {
@@ -610,7 +633,12 @@
 			align-items: center;
 			justify-content: center;
 			margin-bottom: 25px;
-			font-size: 1.4rem;
+		}
+		
+		.equipment-icon svg {
+			width: 28px;
+			height: 28px;
+			fill: #fff;
 		}
 
 		.device-box p { font-size: 0.8rem; color: #666; }
@@ -649,7 +677,12 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 2rem;
+		}
+		
+		.hof-avatar svg {
+			width: 40px;
+			height: 40px;
+			fill: #666;
 		}
 
 		.hof-name { font-weight: 500; margin-bottom: 5px; }
@@ -761,13 +794,55 @@
 
 		.footer-links a:hover { color: #333; }
 
+		/* 回到顶部按钮 */
+		.back-to-top {
+			position: fixed;
+			bottom: 30px;
+			right: 30px;
+			width: 50px;
+			height: 50px;
+			background: #333;
+			color: #fff;
+			border: none;
+			border-radius: 50%;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.2rem;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.3s ease;
+			z-index: 998;
+			box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+		}
+
+		.back-to-top.visible {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.back-to-top:hover {
+			background: #555;
+			transform: translateY(-3px);
+		}
+
 		@media (max-width: 768px) {
 			/* 导航 */
 			nav { 
 				padding: 0 20px; 
 				height: 60px; 
 			}
-			.logo { font-size: 1.1rem; }
+			.logo { 
+				font-size: 1rem; 
+				display: flex;
+				align-items: center;
+			}
+			.logo img {
+				width: 28px;
+				height: 28px;
+				object-fit: contain;
+			}
 			.hamburger { 
 				display: flex; 
 				right: 20px;
@@ -874,13 +949,18 @@
 			.bands-grid { grid-template-columns: 1fr; }
 			.category-nav { flex-wrap: wrap; }
 			.category-link { font-size: 0.75rem; padding: 8px 12px; }
+			.logo { font-size: 0.9rem; }
+			.logo img { width: 24px; height: 24px; }
 		}
 	</style>
 </head>
 <body>
 
 	<nav>
-		<div class="logo">HAM<span>RADIO</span></div>
+		<div class="logo">
+			<img src="images/wxdicon.jpeg">
+			HAM<span>RADIO</span>
+		</div>
 		<ul class="nav-links">
 			<li><a href="#history">发展史</a></li>
 			<li><a href="#modes">通信模式</a></li>
@@ -932,13 +1012,13 @@
 			</div>
 			<div class="timeline-item">
 				<div class="timeline-year">1895</div>
-				<h3 class="timeline-title">⚡ 火花发报机诞生</h3>
-				<p class="timeline-desc">亚历山大·波波夫发明火花隙式无线电接收机。稍后尼古拉·特斯拉也进行类似实验。利用高压电火花放电产生电磁波，是最早的无线电发射方式。</p>
+				<h3 class="timeline-title">火花发报机诞生</h3>
+				<p class="timeline-desc">亚历山大·波波夫发明火花隙式无线电接收机（雷电指示器），利用高压电火花放电产生电磁波，是最早的无线电发射方式。</p>
 			</div>
 			<div class="timeline-item">
-				<div class="timeline-year">1895</div>
-				<h3 class="timeline-title">马可尼实现远距离通信</h3>
-				<p class="timeline-desc">马可尼在家乡成功将信号传输到2.4公里外，奠定无线通信基础。1897年实现跨大西洋通信。</p>
+				<div class="timeline-year">1896</div>
+				<h3 class="timeline-title">马可尼远距离通信实验</h3>
+				<p class="timeline-desc">马可尼前往英国，获得世界上第一个无线电专利。将信号传输到约2.4公里外，奠定无线通信基础。1901年实现跨大西洋通信。</p>
 			</div>
 			<div class="timeline-item">
 				<div class="timeline-year">1906</div>
@@ -976,42 +1056,81 @@
 		</div>
 		<div class="modes-grid">
 			<div class="mode-card">
-				<div class="mode-icon">📟</div>
+				<div class="mode-icon">
+					<svg viewBox="0 0 50 30" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M0 15 Q6.25 0, 12.5 15 Q18.75 30, 25 15 Q31.25 0, 37.5 15 Q43.75 30, 50 15"/>
+					</svg>
+				</div>
 				<h4 class="mode-name">CW (摩尔斯电码)</h4>
 				<p class="mode-desc">最原始的通信方式，利用开关发送点划信号</p>
 			</div>
 			<div class="mode-card">
-				<div class="mode-icon">📻</div>
+				<div class="mode-icon">
+					<svg viewBox="0 0 50 30" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M0 15 Q6.25 0, 12.5 15 Q18.75 0, 25 15 Q31.25 0, 37.5 15 Q43.75 0, 50 15"/>
+					</svg>
+				</div>
 				<h4 class="mode-name">SSB (单边带)</h4>
 				<p class="mode-desc">语音通信主流模式，分为上边带(USB)和下边带(LSB)</p>
 			</div>
 			<div class="mode-card">
-				<div class="mode-icon">📺</div>
+				<div class="mode-icon">
+					<svg viewBox="0 0 50 30" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M0 15 Q3 5, 6 15 Q9 25, 12 15 Q15 5, 18 15 Q21 25, 24 15 Q27 5, 30 15 Q33 25, 36 15 Q39 5, 42 15 Q45 25, 48 15 L50 15"/>
+					</svg>
+				</div>
 				<h4 class="mode-name">FM (调频)</h4>
 				<p class="mode-desc">VHF/UHF本地通信常用，音质清晰稳定</p>
 			</div>
 			<div class="mode-card">
-				<div class="mode-icon">💻</div>
+				<div class="mode-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<rect x="2" y="3" width="20" height="14" rx="2"/>
+						<path d="M8 21h8M12 17v4"/>
+					</svg>
+				</div>
 				<h4 class="mode-name">FT8/FT4</h4>
 				<p class="mode-desc">WSJT-X协议的数字模式，极弱信号也能解码</p>
 			</div>
 			<div class="mode-card">
-				<div class="mode-icon">🖥️</div>
+				<div class="mode-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<rect x="2" y="6" width="20" height="12" rx="2"/>
+						<path d="M6 10v4M10 10v2M14 10v4M18 10v2"/>
+					</svg>
+				</div>
 				<h4 class="mode-name">PSK31</h4>
 				<p class="mode-desc">键盘对键盘实时文字通信，带宽极窄</p>
 			</div>
 			<div class="mode-card">
-				<div class="mode-icon">📡</div>
+				<div class="mode-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="12" r="9"/>
+						<path d="M12 8v8M8 12h8"/>
+					</svg>
+				</div>
 				<h4 class="mode-name">RTTY</h4>
 				<p class="mode-desc">无线电传，最早的数字通信模式之一</p>
 			</div>
 			<div class="mode-card">
-				<div class="mode-icon">🌐</div>
+				<div class="mode-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="12" r="3"/>
+						<path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+						<path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+					</svg>
+				</div>
 				<h4 class="mode-name">APRS</h4>
 				<p class="mode-desc">自动数据包报告系统，实时位置共享</p>
 			</div>
 			<div class="mode-card">
-				<div class="mode-icon">🛰️</div>
+				<div class="mode-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="4" r="2"/>
+						<path d="M10.5 6h3M10.5 18h3M4 10.5v3M18 10.5v3"/>
+						<ellipse cx="12" cy="12" rx="8" ry="4"/>
+					</svg>
+				</div>
 				<h4 class="mode-name">卫星通信</h4>
 				<p class="mode-desc">通过业余卫星进行中继通信</p>
 			</div>
@@ -1025,7 +1144,7 @@
 			<div class="section-line"></div>
 		</div>
 		
-		<h3 style="font-size:1.3rem;margin-bottom:30px;color:#333">📻 电子管时代</h3>
+		<h3 style="font-size:1.3rem;margin-bottom:30px;color:#333">电子管时代</h3>
 		<div class="device-timeline">
 			<div class="device-era">
 				<div class="era-year">1950s</div>
@@ -1045,7 +1164,7 @@
 			</div>
 		</div>
 
-		<h3 style="font-size:1.3rem;margin:50px 0 30px;color:#333">💾 晶体管时代</h3>
+		<h3 style="font-size:1.3rem;margin:50px 0 30px;color:#333"> 晶体管时代</h3>
 		<div class="device-timeline">
 			<div class="device-era">
 				<div class="era-year">1970s</div>
@@ -1083,72 +1202,86 @@
 
 		<!-- 间谍电台 -->
 		<div id="spy-radio"></div>
-		<h3 style="font-size:1.3rem;margin:60px 0 30px;color:#333">🕵️ 间谍电台与地下电台</h3>
+		<h3 style="font-size:1.3rem;margin:60px 0 30px;color:#333"> 间谍电台与地下电台</h3>
 		<div class="content-cards">
 			<div class="content-card">
-				<h3>📻 冷战时期的秘密电波</h3>
+				<h3>冷战时期的秘密电波</h3>
 				<p>20世纪冷战时期，东西方阵营大量使用隐蔽电台进行情报传递。这些"间谍电台"通常体积小巧、功率低微，隐藏在普通民居中，使用特殊编码发送情报。最著名的包括"numbers station"（数字电台），使用摩尔斯电码或语音播报数字序列。</p>
 			</div>
 			<div class="content-card">
-				<h3>🔢 Numbers Station 数字电台</h3>
+				<h3>Numbers Station 数字电台</h3>
 				<p>最具神秘色彩的间谍电台，以播报随机数字序列闻名。播报员用多种语言朗读数字，听众用特定密码本将数字转换为情报。"The Buzzer"、"The Russian Woodpecker"等是冷战遗留的经典。</p>
 			</div>
 			<div class="content-card">
-				<h3>⚡ 地下电台 (Underground Radio)</h3>
+				<h3>地下电台 (Underground Radio)</h3>
 				<p>政治动荡时期的地下组织使用自发无线电设备传递信息。这些设备往往简单粗糙，但能在关键时刻发挥作用。越战时期的"Voice of the People"、东欧剧变时的独立电台都是典型代表。</p>
 			</div>
 			<div class="content-card">
-				<h3>🔐 倒频器与加密</h3>
+				<h3>倒频器与加密</h3>
 				<p>间谍电台使用各种加密技术，最简单的是倒频器(倒放语音)，复杂的使用一次一密(OTP)加密。现代数字无线电则采用AES256等加密标准，但在特殊时期，简单技术往往更可靠。</p>
 			</div>
 		</div>
 
 		<!-- 二战Paraset -->
-		<h3 style="font-size:1.3rem;margin:60px 0 30px;color:#333">✈️ 二战 PARASET 间谍电台</h3>
+		<h3 style="font-size:1.3rem;margin:60px 0 30px;color:#333"> 二战 PARASET 间谍电台</h3>
 		<div class="content-cards">
 			<div class="content-card">
-				<h3>🎖️ 什么是 Paraset？</h3>
+				<h3>什么是 Paraset？</h3>
 				<p><strong>Paraset</strong>（Parachute Set，空降电台）是二战时期英国<strong>SOE</strong>（特别行动处）专门为<strong>德占区</strong>（法国、荷兰、比利时等）的间谍特工研发的便携式无线电收发设备。这些电台通过飞机空投到敌占区，由潜伏的特工手动组装，与伦敦总部进行联络。</p>
 			</div>
 			<div class="content-card">
-				<h3>🗝️ A-3 Paraset</h3>
+				<h3>A-3 Paraset</h3>
 				<p>由英国SOE开发的经典间谍电台，发射功率仅<strong>5瓦</strong>，使用摩尔斯电码与总部联络。全部设备可装入两个小箱子，总重约13公斤。发送一条简短信息只需几秒钟，然后立即转移位置。是二战最著名的间谍装备。</p>
 			</div>
 			<div class="content-card">
-				<h3>🇬🇧 英国 SOE 血统</h3>
+				<h3>英国 SOE 血统</h3>
 				<p>Paraset由英国<strong>特别行动处</strong>（Special Operations Executive）研制，丘吉尔下令"让欧洲燃烧"。二战期间共空投了约500套Paraset设备到德占区，用于支援当地抵抗组织。</p>
 			</div>
 			<div class="content-card">
-				<h3>🔋 供电系统</h3>
+				<h3>供电系统</h3>
 				<p>Paraset使用电池供电，早期使用干电池，后期使用可充电的镍镉电池。为了延长工作时间，特工们经常使用手动发电机（类似自行车发电机）为电池充电。</p>
 			</div>
 			<div class="content-card">
-				<h3>📡 天线系统</h3>
+				<h3> 天线系统</h3>
 				<p>由于功率极低，天线是Paraset的关键。通常使用30-50米长的临时天线，用竹竿或树木架设。也有特工使用"随机天线"（随机长度的导线），通过调节匹配器来达到最佳效果。</p>
 			</div>
 			<div class="content-card">
-				<h3>💀 生死一线</h3>
+				<h3> 生死一线</h3>
 				<p>使用Paraset的特工存活率极低。德国<strong>盖世太保</strong>配备的定向天线可以定位发报位置。每条信息发送时间通常不超过30秒，之后必须立即转移。许多抵抗组织英雄，如Nancy Wake，都曾在使用Paraset时九死一生。</p>
 			</div>
 		</div>
 
 		<!-- 经典案例 -->
-		<h3 style="font-size:1.2rem;margin:50px 0 25px;color:#666;text-align:center">🌟 传奇特工案例</h3>
+		<h3 style="font-size:1.2rem;margin:50px 0 25px;color:#666;text-align:center"> 传奇特工案例</h3>
 		<div class="equipment-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
 			<div class="equipment-card">
-				<div class="equipment-icon" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">⚡</div>
+				<div class="equipment-icon" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<path d="M12 2l3 7h7l-5.5 4.5 2 7.5-6.5-4.5-6.5 4.5 2-7.5L2 9h7l3-7z"/>
+					</svg>
+				</div>
 				<h3>Violette Szabo</h3>
 				<p>代号"Carrie"，法国特工。使用Paraset多次往返法国与英国，执行情报任务。被捕后宁死不屈，年仅30岁牺牲。电影《最高机密》原型。</p>
 				<span class="equipment-year">1908-1945</span>
 			</div>
 			<div class="equipment-card">
-				<div class="equipment-icon" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">⚡</div>
+				<div class="equipment-icon" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="8" r="4"/>
+						<path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+					</svg>
+				</div>
 				<h3>Nancy Wake</h3>
 				<p>代号"White Mouse"，澳大利亚特工。帮助法国抵抗组织，是二战中最受尊敬的女特工之一。成功使用Paraset传递德军情报，间接帮助盟军诺曼底登陆。</p>
 				<span class="equipment-year">1912-2011</span>
 			</div>
 			<div class="equipment-card">
-				<div class="equipment-icon" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">⚡</div>
+				<div class="equipment-icon" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<rect x="2" y="8" width="20" height="12" rx="2"/>
+						<path d="M6 12h4v4H6zM14 12h4v4h-4z"/>
+					</svg>
+				</div>
 				<h3>William "Bill" Stirling</h3>
 				<p>英国SOE创始人之一。设计了S-Phone语音通信系统，革命性地实现了语音传输替代摩尔斯电码，大大缩短了发报时间，提高了特工生存率。</p>
 				<span class="equipment-year">1895-1953</span>
@@ -1157,57 +1290,90 @@
 
 		<!-- 晶体管详解 -->
 		<div id="transistor-detail"></div>
-		<h3 style="font-size:1.3rem;margin:60px 0 30px;color:#333">💎 晶体管详解</h3>
+		<h3 style="font-size:1.3rem;margin:60px 0 30px;color:#333"> 晶体管详解</h3>
 		<div class="equipment-grid">
 			<div class="equipment-card">
-				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">🔬</div>
+				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="12" r="8"/>
+						<circle cx="12" cy="12" r="4"/>
+						<path d="M12 4v3M12 17v3M4 12h3M17 12h3"/>
+					</svg>
+				</div>
 				<h3>晶体管原理</h3>
 				<p>晶体管是半导体材料制成的固态器件，利用PN结的单向导电性和载流子注入效应实现放大。有NPN和PNP两种类型，由硅(Si)或锗(Ge)制成。体积小、功耗低、寿命长，彻底改变了电子技术。</p>
 			</div>
 			<div class="equipment-card">
-				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">📟</div>
+				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<rect x="4" y="8" width="16" height="8" rx="1"/>
+						<path d="M8 12h2M14 12h2"/>
+						<path d="M6 8V6a2 2 0 012-2h8a2 2 0 012 2v2"/>
+					</svg>
+				</div>
 				<h3>场效应管 FET</h3>
 				<p>利用电场控制导电沟道的半导体器件。分为JFET和MOSFET两大类。MOSFET广泛用于数字电路和功放，在高频和低噪声领域表现优异。IRF系列是经典功率MOSFET。</p>
 			</div>
 			<div class="equipment-card">
-				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">🎛️</div>
+				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<rect x="4" y="4" width="16" height="16" rx="2"/>
+						<path d="M9 9h6v6H9z"/>
+						<path d="M4 4v4M16 4v4M4 16v4M16 16v4"/>
+					</svg>
+				</div>
 				<h3>集成电路 IC</h3>
 				<p>将大量晶体管集成在单一芯片上。從早期的运算放大器(如LM741)、收發芯片(如TA2003)到现代的DSP芯片，集成电路使设备小型化成为可能。</p>
 			</div>
 			<div class="equipment-card">
-				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">📻</div>
+				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: #fff;">
+						<path d="M4 12h2l2-4 3 8 3-6 2 4h6"/>
+					</svg>
+				</div>
 				<h3>射频晶体管</h3>
 				<p>专门用于高频放大的晶体管。2N2222(通用)、2N3904(开关)、MRF系列(功率射频)、BLT系列(功放模块)。现代短波电台普遍采用FET功放模块。</p>
 			</div>
 			<div class="equipment-card">
-				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">🔊</div>
+				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: #fff;">
+						<path d="M12 2v6M12 16v6M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24"/>
+						<path d="M2 12h6M16 12h6"/>
+					</svg>
+				</div>
 				<h3>数字功放 D类</h3>
 				<p>采用PWM调制和开关放大技术的数字功放，效率高达90%以上。TPA3116、TPA3255等芯片广泛应用于现代通信设备和音响。</p>
 			</div>
 			<div class="equipment-card">
-				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">🧠</div>
+				<div class="equipment-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490)">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<rect x="2" y="3" width="20" height="14" rx="2"/>
+						<circle cx="12" cy="10" r="3"/>
+						<path d="M6 21h12"/>
+					</svg>
+				</div>
 				<h3>DSP 数字信号处理</h3>
 				<p>AD9951、AD9862等芯片实现数字滤波、噪声抑制、调制解调。现代收发机如IC-7300、FT-DX10内置DSP，实现传统模拟电路难以达到的性能。</p>
 			</div>
 		</div>
 
 		<!-- 电子管 vs 晶体管 -->
-		<h3 style="font-size:1.3rem;margin:60px 0 30px;color:#333">⚖️ 电子管与晶体管对比</h3>
+		<h3 style="font-size:1.3rem;margin:60px 0 30px;color:#333"> 电子管与晶体管对比</h3>
 		<div class="content-cards">
 			<div class="content-card">
-				<h3>🎵 音质特点</h3>
+				<h3> 音质特点</h3>
 				<p>电子管功放因偶次谐波失真特性，声音温暖圆润，被发烧友推崇。晶体管功放则以精确著称，部分人认为声音偏冷硬。但现代技术已能很好模拟管味。</p>
 			</div>
 			<div class="content-card">
-				<h3>⚡ 效率对比</h3>
+				<h3> 效率对比</h3>
 				<p>晶体管效率可达90%以上，电子管通常只有20-30%。这使晶体管设备更轻便、发热更少、电池续航更长。但高功率发射机仍用电子管做功放。</p>
 			</div>
 			<div class="content-card">
-				<h3>🔧 可靠性</h3>
+				<h3> 可靠性</h3>
 				<p>晶体管没有灯丝，不存在管子老化失效问题，寿命更长。电子管需要定期更换，灯丝会随时间衰减。但电子管抗过载能力强，瞬时超功率不易损坏。</p>
 			</div>
 			<div class="content-card">
-				<h3>📡 高频性能</h3>
+				<h3> 高频性能</h3>
 				<p>现代GHz级应用几乎全部依赖晶体管和集成电路。电子管在高频领域已被完全淘汰，但在低频音频和射频功放仍有独特价值。</p>
 			</div>
 		</div>
@@ -1337,28 +1503,52 @@
 			</div>
 		</div>
 
-		<h3 style="font-size:1.3rem;margin:60px 0 30px;text-align:center">🏆 传奇HAM</h3>
+		<h3 style="font-size:1.3rem;margin:60px 0 30px;text-align:center"> 传奇HAM</h3>
 		<div class="hall-of-fame">
 			<div class="hof-card">
-				<div class="hof-avatar">📡</div>
+				<div class="hof-avatar">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="4" r="3"/>
+						<path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+						<path d="M12 7v3"/>
+					</svg>
+				</div>
 				<h4 class="hof-name">Guglielmo Marconi</h4>
 				<p class="hof-callsign">1ZAB</p>
 				<p class="hof-desc">无线电之父，1909年诺贝尔物理学奖</p>
 			</div>
 			<div class="hof-card">
-				<div class="hof-avatar">📻</div>
+				<div class="hof-avatar">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="4" r="3"/>
+						<path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+						<path d="M12 7v3"/>
+					</svg>
+				</div>
 				<h4 class="hof-name">Hiram Percy Maxim</h4>
 				<p class="hof-callsign">1AW</p>
 				<p class="hof-desc">ARRL创始人，业余无线电先驱</p>
 			</div>
 			<div class="hof-card">
-				<div class="hof-avatar">📟</div>
+				<div class="hof-avatar">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="4" r="3"/>
+						<path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+						<path d="M12 7v3"/>
+					</svg>
+				</div>
 				<h4 class="hof-name">Don Miller</h4>
 				<p class="hof-callsign">9Y4DM</p>
 				<p class="hof-desc">DXCC 100区全通第一人</p>
 			</div>
 			<div class="hof-card">
-				<div class="hof-avatar">🛰️</div>
+				<div class="hof-avatar">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="4" r="3"/>
+						<path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+						<path d="M12 7v3"/>
+					</svg>
+				</div>
 				<h4 class="hof-name">Joe Taylor</h4>
 				<p class="hof-callsign">K1JT</p>
 				<p class="hof-desc">WSJT软件开发者，诺贝尔奖得主</p>
@@ -1374,24 +1564,41 @@
 		</div>
 		<div class="equipment-grid">
 			<div class="equipment-card">
-				<div class="equipment-icon">📡</div>
+				<div class="equipment-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: #fff;">
+						<path d="M4 12h2l2-4 3 8 3-6 2 4h6"/>
+					</svg>
+				</div>
 				<h3>什么是业余无线电</h3>
 				<p>业余无线电是面向无线电爱好者的非商业通信活动。通过设置个人电台，与全球爱好者交流技术、实验创新。</p>
 			</div>
 			<div class="equipment-card">
-				<div class="equipment-icon">🎓</div>
+				<div class="equipment-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<rect x="3" y="6" width="18" height="12" rx="2"/>
+						<path d="M7 10h4M13 10h4"/>
+					</svg>
+				</div>
 				<h3>如何获取呼号</h3>
 				<p>在中国需通过CRAC考试获得操作证书，A/B/C三类。然后在工信部备案设台，获得个人呼号。不同级别对应不同的可用频率和功率。</p>
 				<span class="equipment-year">考试内容：法规+技术+操作</span>
 			</div>
 			<div class="equipment-card">
-				<div class="equipment-icon">🌍</div>
+				<div class="equipment-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<circle cx="12" cy="12" r="10"/>
+						<path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+					</svg>
+				</div>
 				<h3>全球HAM大家庭</h3>
 				<p>全球约有300万HAM。通联世界各地爱好者，体验DX乐趣，感受无线电带来的跨国友谊。</p>
 				<span class="equipment-year">73 73 我们的口号</span>
 			</div>
 		</div>
 	</section>
+
+	<!-- 回到顶部按钮 -->
+	<button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
 
 	<footer>
 		<div class="footer-callsign">73 DE BG7XXX</div>
@@ -1410,6 +1617,20 @@
 			document.querySelector('.hamburger').classList.toggle('active');
 			document.getElementById('navMobile').classList.toggle('active');
 		}
+
+		function scrollToTop() {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+
+		// 显示/隐藏回到顶部按钮
+		window.addEventListener('scroll', function() {
+			const btn = document.getElementById('backToTop');
+			if (window.scrollY > 2000) {
+				btn.classList.add('visible');
+			} else {
+				btn.classList.remove('visible');
+			}
+		});
 
 		const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
 		const observer = new IntersectionObserver((entries) => {
