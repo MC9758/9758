@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="api.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		
+		<div class="mui-content" style="width: 100%;">
+			<video muted autoplay controls src="images/video.mp4" style="width: 100%;"></video>
+			
+			<div class="lbtc" style="width: 100vw;position: fixed;bottom: -100%;background-color: #FF6B6B;padding: 1rem;border-radius: 10px 10px 0 0;transition: 0.8s;z-index: 10;">
+				<div id="slider" class="mui-slider" style="color: white;">
+				  <div class="mui-slider-group" style="margin-bottom: 2rem;">
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+					  时代楷模的脚步，永不停歇
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+					  时代楷模的脚步，永不磨灭
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						时代楷模的脚步，永不消退
+					</div>
+				  </div>
+				  <div class="mui-slider-indicator" >
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				  </div>
+				</div>
+				<div style="width: 100%;display: flex;flex-direction: column;color: white;">
+					<button onclick="next()" type="button" style="width: 100%;height: 3rem;background-color: #4CD964;color: white;border: none;border-radius: 0;">下一页</button>
+					<div style="display: flex;">
+						<button onclick="back()" type="button" style="display: none;width: 100%;height: 3rem;background-color: #4CD964;color: white;border: none;border-radius: 0;">上一页</button>
+						<button onclick="next()" type="button" style="display: none;width: 100%;height: 3rem;background-color: #8A6DE9;color: white;border: none;border-radius: 0;">下一页</button>
+					</div>
+					<button onclick="jianchaxy()" onclick="" type="button" style="display: none;width: 100%;height: 3rem;background-color: #4CD964;color: white;border: none;border-radius: 0;">进入APP</button>
+					<div class="xieyi" style="width: 100%;display: flex;opacity: 0;align-items: center;font-size: 0.9rem;margin-top: 1rem;transition: 0.5s;">
+						<input type="checkbox" class="" style="margin-right: 0.5rem;"/>请同意《用户隐私政策》
+					</div>
+				</div>
+				<script type="text/javascript">
+					let slider = mui("#slider").slider()
+					function next() {
+						slider.gotoItem(slider.slideNumber + 1)
+					}
+					function back() {
+						slider.gotoItem(slider.slideNumber - 1)
+					}
+					function openlbtc() {
+						$(".lbtc").css("bottom","0")
+					}
+					function jianchaxy() {
+						if(!$(".xieyi input")[0].checked) {
+							mui.toast("请同意《用户隐私政策》")
+						} else {
+							openlogtc()
+						}
+					}
+					setTimeout(openlbtc(),200)
+					$(".xieyi input")[0].checked = false
+					$("#slider").on('slide',e=>{
+						if(slider.slideNumber === 0) {
+							$("button")[0].style.display = 'block'
+							$("button")[1].style.display = 'none'
+							$("button")[2].style.display = 'none'
+							$("button")[3].style.display = 'none'
+						}
+						if(slider.slideNumber === 1) {
+							$("button")[0].style.display = 'none'
+							$("button")[1].style.display = 'block'
+							$("button")[2].style.display = 'block'
+							$("button")[3].style.display = 'none'
+						}
+						if(slider.slideNumber === 2) {
+							$("button")[0].style.display = 'none'
+							$("button")[1].style.display = 'none'
+							$("button")[2].style.display = 'none'
+							$("button")[3].style.display = 'block'
+							$(".xieyi").css("opacity","1")
+						}
+					})
+				</script>
+				
+			</div>
+			<div class="logtc" style="width: 90%;left: 50%;transform: translateX(-50%);position: absolute;bottom: -100%;box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);padding: 1rem;border-radius: 10px;background-color: white;transition: 0.5s;">
+				<form class="mui-input-group">
+					<h4>用户名</h4>
+					<div class="mui-input-row">
+						<input type="text" class="mui-input-clear nameip" style="border-bottom: 2px solid orange" placeholder="请输入用户名">
+					</div>
+					
+					<h4 style="margin-top: 1rem;">密码</h4>
+					<div class="mui-input-row">
+						<input type="password" class="mui-input-password pwdip" style="border-bottom: 2px solid orange" placeholder="请输入密码">
+					</div>
+				</form>
+				<div style="width: 100%;display: flex;align-items: center;font-size: 0.9rem;margin-top: 1rem;transition: 0.5s;">
+					<input type="checkbox" class="jzmm" style="margin-right: 0.5rem;"/>记住密码
+				</div>
+				<div style="display: flex;margin-top: 0.5rem;">
+					<button onclick="jianchalog()" type="button" style="width: 100%;height: 3rem;background-color: #DC514C;color: white;border: none;border-radius: 0;">登录</button>
+					<button onclick="closelogtc()" type="button" style="width: 100%;height: 3rem;background-color: #007AFF;color: white;border: none;border-radius: 0;">关闭</button>
+				</div>
+			</div>
+			<script type="text/javascript">
+				function openlogtc() {
+					$(".logtc").css("bottom",`${$(".lbtc")[0].clientHeight + 8}px`)
+					$(".xieyi input")[0].disabled = true
+				}
+				function closelogtc() {
+					$(".logtc").css("bottom",`-100%`)
+					$(".xieyi input")[0].disabled = false
+				}
+				function jianchalog() {
+					let [name, pwd] = [
+						$(".nameip").val(),
+						$(".pwdip").val()
+					]
+					if(name === '' || pwd === '') {
+						mui.toast("输入框不能为空")
+						return
+					}
+					api("post","/prod-api/api/login",{},{
+						userName: name,
+						passWord: pwd
+					}).then(data=>{
+						if(data.code === 200) {
+							mui.toast("登录成功")
+							localStorage.setItem('token',data.token)
+							setTimeout(()=>{
+								location.href = 'sy.html'
+							},200)
+						} else {
+							mui.toast(data.msg)
+						}
+					})
+				}
+				let jzmmzt = JSON.parse(localStorage.getItem('jizhu'))
+				if(jzmmzt.zt === 1) {
+					$(".pwdip")[0].value = jzmmzt.pwd
+					$(".jzmm")[0].checked = true
+				}
+				$(".jzmm").on('change',function(){
+					if(this.checked) {
+						let pwd = $(".pwdip").val()
+						localStorage.setItem('jizhu',JSON.stringify({
+							zt: 1,
+							pwd: pwd
+						}))
+					} else {
+						localStorage.setItem('jizhu',JSON.stringify({
+							zt: 0
+						}))
+					}
+				})
+			</script>
+			<style type="text/css">
+				.mui-input-group:after,.mui-input-group .mui-input-row:after,.mui-input-group:before {
+					background-color: transparent;
+					height: 0;
+				}
+			</style>
+		</div>
+		
+	</body>
+
+</html>

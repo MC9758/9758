@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<script src="api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		
+		<!-- 缩放式侧滑（类手机QQ） -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-scalable">
+		  <!-- 菜单容器 -->
+		  <aside class="mui-off-canvas-left mui-transitioning" id="offCanvasSide">
+			<div class="mui-scroll-wrapper">
+			  <div class="mui-scroll" style="width: 100%;height: 100%;background-color: white;position: relative;">
+				<!-- 菜单具体展示内容 -->
+				<div style="width: 100%;background-image: url(images/20210513-iscas.jpeg);background-size: cover;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+					<img src="images/60x60.gif"  style="margin-top: 2rem;margin-bottom: 1rem;">
+					<h4 style="margin-bottom: 2rem;color: #555;">用户名</h4>
+				</div>
+				<ul class="mui-table-view cbul">
+					<li url="sy.html" class="mui-table-view-cell">
+						<a class="mui-navigate-right" style="display: flex;align-items: center;">
+							<img class="mui-media-object mui-pull-left" src="images/home.png" style="width: 1.5rem;height: 1.5rem;">时代楷模
+						</a>
+					</li>
+					<li url="gyhd.html" class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							 <img class="mui-media-object mui-pull-left" src="images/gy-active.png" style="width: 1.5rem;height: 1.5rem;">公益活动
+						</a>
+					</li>
+					<li url="xxxd.html" class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							 <img class="mui-media-object mui-pull-left" src="images/xd-active.png" style="width: 1.5rem;height: 1.5rem;">学习心得
+						</a>
+					</li>
+					<li url="sjfx.html" class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							 <img class="mui-media-object mui-pull-left" src="images/my.png" style="width: 1.5rem;height: 1.5rem;">数据分析
+						</a>
+					</li>
+					<script type="text/javascript">
+						$(".cbul li").on('tap',e=>{
+							location.href = e.target.parentElement.getAttribute("url")
+						})
+					</script>
+				</ul>
+			  </div>
+			</div>
+		  </aside>
+		  <!-- 主页面容器 -->
+		  <div class="mui-inner-wrap mui-transitioning">
+			<!-- 主页面标题 -->
+			<header class="mui-bar mui-bar-nav" style="display: flex;align-items: center;justify-content: flex-start;box-shadow: none;">
+				<span class="mui-icon mui-icon-bars cbbtn" style="color: red;display: inline-block;"></span>
+				<span style="color: red;margin-left: 1rem;">时代楷模</span>
+				<script type="text/javascript">
+					$(".cbbtn").on('tap',e=>{
+						mui('.mui-off-canvas-wrap').offCanvas().show()
+					})
+				</script>
+			</header>
+			
+			<div class="mui-content mui-scroll-wrapper gundong">
+			  <div class="mui-scroll">
+				<!-- 主界面具体展示内容 -->
+				<div class="mui-content" style="padding-left: 0.3rem;padding-right: 0.3rem;">
+				  	<div style="width: 100%;height: 2rem;font-size: 0.9rem;background-color: #BF0000;color: white;display: flex;justify-content: center;align-items: center;">
+				  		学习雷锋精神，弘扬雷锋精神
+				  	</div>
+				  
+				  	<div id="slider" class="mui-slider">
+				  		<div class="mui-slider-group mui-slider-loop lbt">
+				  			<!-- <div class="mui-slider-item mui-slider-item-duplicate">
+				  				<img src="" alt="">
+				  			</div>
+				  			<div class="mui-slider-item">
+				  				<img src="" alt="">
+				  			</div>
+				  			<div class="mui-slider-item mui-slider-item-duplicate">
+				  				<img src="" alt="">
+				  			</div> -->
+				  		</div>
+				  		<div class="mui-slider-indicator zsq">
+				  			<!-- <div class="mui-indicator mui-active"></div>
+				  			<div class="mui-indicator"></div>
+				  			<div class="mui-indicator"></div>
+				  			<div class="mui-indicator"></div> -->
+				  		</div>
+				  		<script type="text/javascript">
+				  			api("GET","/prod-api/api/rotation/list",{},{
+				  			    type: 2
+				  			}).then(list=>{
+								let lbi = [...list.data]
+								lbi.unshift(lbi[list.data.length - 1])
+								lbi.push(lbi[1])
+				  			    lbi.forEach((item,i)=>{
+									$(".lbt")[0].innerHTML += `
+										<div class="mui-slider-item ${i === 0 || i === list.data.length - 1 ? 'mui-slider-item-duplicate':''}">
+											<img src="${item.imgUrl}" alt="">
+										</div>
+									`
+				  				})
+								list.data.forEach((item,i)=>{
+									$(".zsq")[0].innerHTML += `
+										<div class="mui-indicator ${i === 0 ? 'mui-active' : ''}"></div>
+									`
+								})
+				  				mui("#slider").slider({interval: 3000})
+				  			})
+				  		</script>
+				  	</div>
+				  
+				  
+				  	<div class="container" style="width: 95%;margin: 0 auto;">
+				  		<div style="width: 100%;padding: 0.5rem;display: flex;justify-content: space-between;align-items: center;background-color: white;border-radius: 10px;box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);margin-top: 1rem;">
+				  			<div style="display: flex;flex-direction: column;padding: 0.5rem;border-right: 2px solid rgba(0,0,0,0.1);">
+				  				<h4 style="color: red;white-space: nowrap;line-height: 0.5rem;">楷模</h4>
+				  				<h4 style="color: #000;white-space: nowrap;">公告</h4>
+				  			</div>
+				  			<div style="width: 80%;display: flex;flex-direction: column;">
+				  				<h4 class="mui-ellipsis-2">Lorem ipsum dolor sit amet, consecteturadipisicing elit. Modi ipsum
+				  					mollitia oditalsdkfjlafdjafjllasjfja;fj</h4>
+				  				<p class="mui-ellipsis">Lorem ipsum dolor sit amet, consecte turadipisicing elit</p>
+				  			</div>
+				  		</div>
+				  
+				  
+				  		<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 1rem;background-color: white;padding: 0.5rem;">
+				  			<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				  				<div style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+				  					<img src="images/kmlb.png" style="width: 3rem;">
+				  					<div class="mui-media-body" style="margin-top: 1rem;">楷模列表</div>
+				  				</div>
+				  			</li>
+				  			<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				  				<div style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+				  					<img src="images/yxgs.png" style="width: 3rem;">
+				  					<div class="mui-media-body" style="margin-top: 1rem;">英雄故事</div>
+				  				</div>
+				  			</li>
+				  			<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				  				<div style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+				  					<img src="images/sbyx.png" style="width: 3rem;">
+				  					<div class="mui-media-body" style="margin-top: 1rem;">身边英雄</div>
+				  				</div>
+				  			</li>
+				  			<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				  				<div style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+				  					<img src="images/wzjz.png" style="width: 3rem;">
+				  					<div class="mui-media-body" style="margin-top: 1rem;">物资捐赠</div>
+				  				</div>
+				  			</li>
+				  			<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				  				<div style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+				  					<img src="images/qzxq.png" style="width: 3rem;">
+				  					<div class="mui-media-body" style="margin-top: 1rem;">群众需求</div>
+				  				</div>
+				  			</li>
+				  			<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				  				<div style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;">
+				  					<img src="images/more.png" style="width: 3rem;">
+				  					<div class="mui-media-body" style="margin-top: 1rem;">更多</div>
+				  				</div>
+				  			</li>
+				  			<style type="text/css">
+				  				.mui-grid-view.mui-grid-9 .mui-media {
+				  					border: none;
+				  				}
+				  			</style>
+				  		</ul>
+						
+				  		<div style="width: 100%;display: flex;flex-direction: column;">
+				  			<h4 style="border-left: 2px solid red;padding-left: 0.5rem;margin: 0.7rem 0;">楷模列表</h4>
+				  			<ul class="mui-table-view kmlb" style="background-color: transparent;">
+				  				<!-- <li class="mui-table-view-cell mui-media" style="margin-bottom: 1rem;">
+				  					<img class="mui-media-object mui-pull-left" src="images/shuijiao.jpg" style="width: 5rem;height: 5rem;max-width: 5rem;">
+				  					<div class="mui-media-body">
+				  						<h4>中宣部授予称号</h4>
+				  						<p class="mui-ellipsis">晓雯</p>
+				  						<p class="mui-ellipsis">风云人物</p>
+				  					</div>
+				  				</li> -->
+				  			</ul>
+							<button class="ckgdbtn" style="width: 5rem;height: 2.5rem;border-radius: 3px;background-color: #DC514C;color: white;left: 50%;transform: translateX(-50%);">查看更多</button>
+							<script type="text/javascript">
+								function xuanrankm(yeshu) {
+									api("GET","/prod-api/api/model/list",{},{
+										pageNum: yeshu,
+										pageSize: 5
+									}).then(list=>{
+										list.data.forEach(item=>{
+											$(".kmlb")[0].innerHTML += `
+												<li class="mui-table-view-cell mui-media" style="margin-bottom: 1rem;">
+													<img class="mui-media-object mui-pull-left" src="${item.imgUrl}" style="width: 5rem;height: 5rem;max-width: 5rem;object-fit: cover;">
+													<div class="mui-media-body">
+														<h4>${item.title}</h4>
+														<p class="mui-ellipsis">${item.name}</p>
+														<p class="mui-ellipsis">${item.content}</p>
+													</div>
+												</li>
+											`
+										})
+									})
+								}
+								let yeshu = 1
+								xuanrankm(yeshu)
+								$(".ckgdbtn").on('tap',e=>{
+									yeshu++
+									xuanrankm(yeshu)
+									yeshu === 5 ? e.target.style.display = 'none' : ''
+								})
+							</script>
+							<style type="text/css">
+								.mui-table-view:before,.mui-table-view-cell:after,.mui-table-view:after {
+									display: none;
+								}
+								.mui-ios .mui-table-view-cell {
+									background-color: #fff;
+								}
+							</style>
+				  		</div>
+				  	</div>
+				</div>
+			  </div>
+			</div>  
+			<div class="mui-off-canvas-backdrop"></div>
+		  </div>
+		  <script type="text/javascript">
+		  	mui(".gundong").scroll()
+		  </script>
+		</div>
+		
+	</body>
+
+</html>

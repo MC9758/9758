@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<script src="api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<!-- 缩放式侧滑（类手机QQ） -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-scalable">
+		  <!-- 菜单容器 -->
+		  <aside class="mui-off-canvas-left mui-transitioning" id="offCanvasSide">
+			<div class="mui-scroll-wrapper">
+			  <div class="mui-scroll">
+				<!-- 菜单具体展示内容 -->
+				<div style="width: 100%;background-image: url(images/20210513-iscas.jpeg);background-size: cover;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+					<img src="images/60x60.gif"  style="margin-top: 2rem;margin-bottom: 1rem;">
+					<h4 style="margin-bottom: 2rem;color: #555;">用户名</h4>
+				</div>
+				<ul class="mui-table-view cbul">
+					<li url="sy.html" class="mui-table-view-cell">
+						<a class="mui-navigate-right" style="display: flex;align-items: center;">
+							<img class="mui-media-object mui-pull-left" src="images/home.png" style="width: 1.5rem;height: 1.5rem;">时代楷模
+						</a>
+					</li>
+					<li url="gyhd.html" class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							 <img class="mui-media-object mui-pull-left" src="images/gy-active.png" style="width: 1.5rem;height: 1.5rem;">公益活动
+						</a>
+					</li>
+					<li url="xxxd.html" class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							 <img class="mui-media-object mui-pull-left" src="images/xd-active.png" style="width: 1.5rem;height: 1.5rem;">学习心得
+						</a>
+					</li>
+					<li url="sjfx.html" class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							 <img class="mui-media-object mui-pull-left" src="images/my.png" style="width: 1.5rem;height: 1.5rem;">数据分析
+						</a>
+					</li>
+					<script type="text/javascript">
+						$(".cbul li").on('tap',e=>{
+							location.href = e.target.parentElement.getAttribute("url")
+						})
+					</script>
+				</ul>
+			  </div>
+			</div>
+		  </aside>
+		  <!-- 主页面容器 -->
+		  <div class="mui-inner-wrap mui-transitioning">
+			<!-- 主页面标题 -->
+			<header class="mui-bar mui-bar-nav" style="display: flex;align-items: center;justify-content: flex-start;box-shadow: none;">
+				<span class="mui-icon mui-icon-bars cbbtn" style="color: red;display: inline-block;"></span>
+				<span style="color: red;margin-left: 1rem;">时代楷模</span>
+				<script type="text/javascript">
+					$(".cbbtn").on('tap',e=>{
+						mui('.mui-off-canvas-wrap').offCanvas().show()
+					})
+				</script>
+			</header>
+			<div class="mui-content mui-scroll-wrapper">
+			  <div class="mui-scroll">
+				<!-- 主界面具体展示内容 -->
+				
+			  </div>
+			</div>  
+			<div class="mui-off-canvas-backdrop"></div>
+		  </div>
+		</div>
+
+	</body>
+
+</html>
