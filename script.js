@@ -5,6 +5,8 @@ const LEVELS = {
 };
 
 const MOBILE_BOARD_QUERY = "(max-width: 760px)";
+const LONG_PRESS_MS = 520;
+const TOUCH_MOVE_CANCEL_PX = 12;
 
 const ICONS = {
   faceReady: "🙂",
@@ -21,9 +23,14 @@ const mineCounterEl = document.querySelector("#mine-counter");
 const timerEl = document.querySelector("#timer");
 const toastEl = document.querySelector("#toast");
 const difficultyButtons = document.querySelectorAll(".difficulty-button");
+const modeButtons = document.querySelectorAll(".mode-button");
 
 let currentLevel = "beginner";
 let activeConfig = LEVELS.beginner;
+let touchMode = "reveal";
+let touchState = null;
+let suppressClickUntil = 0;
+let suppressContextUntil = 0;
 let cells = [];
 let firstClick = true;
 let gameOver = false;
@@ -76,9 +83,18 @@ function startGame(level = currentLevel) {
       button.dataset.index = String(cell.index);
       button.setAttribute("role", "gridcell");
       button.setAttribute("aria-label", `第 ${row + 1} 行，第 ${col + 1} 列，未翻开`);
-      button.addEventListener("click", () => handleReveal(cell.index));
+      button.addEventListener("click", (event) => {
+        if (shouldSuppressMouseClick(event)) {
+          event.preventDefault();
+          return;
+        }
+        handleReveal(cell.index);
+      });
       button.addEventListener("contextmenu", (event) => {
         event.preventDefault();
+        if (Date.now() < suppressContextUntil) {
+          return;
+        }
         handleFlag(cell.index);
       });
       button.addEventListener("mousedown", (event) => {
@@ -87,6 +103,10 @@ function startGame(level = currentLevel) {
           chordCell(cell.index);
         }
       });
+      button.addEventListener("pointerdown", (event) => handleTouchStart(event, cell.index));
+      button.addEventListener("pointermove", (event) => handleTouchMove(event, cell.index));
+      button.addEventListener("pointerup", (event) => handleTouchEnd(event, cell.index));
+      button.addEventListener("pointercancel", (event) => cancelTouch(event, cell.index));
       cell.element = button;
       cells.push(cell);
       boardEl.appendChild(button);
@@ -94,6 +114,7 @@ function startGame(level = currentLevel) {
   }
 
   setActiveDifficulty();
+  setActiveTouchMode();
 }
 
 function placeMines(safeIndex) {
@@ -214,6 +235,124 @@ function chordCell(index) {
   });
 
   checkWin();
+}
+
+function handleTouchStart(event, index) {
+  if (!isTouchPointer(event)) {
+    return;
+  }
+
+  event.preventDefault();
+  suppressClickUntil = Date.now() + 900;
+  suppressContextUntil = Date.now() + 1200;
+  clearTouchState();
+
+  touchState = {
+    pointerId: event.pointerId,
+    index,
+    startX: event.clientX,
+    startY: event.clientY,
+    didLongPress: false,
+    timerId: window.setTimeout(() => {
+      if (!touchState || touchState.pointerId !== event.pointerId || touchState.index !== index) {
+        return;
+      }
+
+      touchState.didLongPress = true;
+      performTouchLongPress(index);
+      suppressClickUntil = Date.now() + 900;
+      suppressContextUntil = Date.now() + 1200;
+    }, LONG_PRESS_MS)
+  };
+
+  event.currentTarget.setPointerCapture?.(event.pointerId);
+}
+
+function handleTouchMove(event, index) {
+  if (!isTouchPointer(event) || !touchState || touchState.pointerId !== event.pointerId || touchState.index !== index) {
+    return;
+  }
+
+  const movedX = Math.abs(event.clientX - touchState.startX);
+  const movedY = Math.abs(event.clientY - touchState.startY);
+
+  if (movedX > TOUCH_MOVE_CANCEL_PX || movedY > TOUCH_MOVE_CANCEL_PX) {
+    clearTouchState();
+  }
+}
+
+function handleTouchEnd(event, index) {
+  if (!isTouchPointer(event) || !touchState || touchState.pointerId !== event.pointerId || touchState.index !== index) {
+    return;
+  }
+
+  event.preventDefault();
+  const didLongPress = touchState.didLongPress;
+  clearTouchState();
+  suppressClickUntil = Date.now() + 900;
+  suppressContextUntil = Date.now() + 1200;
+
+  if (!didLongPress) {
+    performTouchTap(index);
+  }
+}
+
+function cancelTouch(event, index) {
+  if (!isTouchPointer(event) || !touchState || touchState.pointerId !== event.pointerId || touchState.index !== index) {
+    return;
+  }
+
+  clearTouchState();
+}
+
+function performTouchTap(index) {
+  const cell = cells[index];
+
+  if (!cell || gameOver) {
+    return;
+  }
+
+  if (cell.isOpen) {
+    chordCell(index);
+    return;
+  }
+
+  if (touchMode === "flag") {
+    handleFlag(index);
+    return;
+  }
+
+  handleReveal(index);
+}
+
+function performTouchLongPress(index) {
+  const cell = cells[index];
+
+  if (!cell || gameOver || cell.isOpen) {
+    return;
+  }
+
+  if (touchMode === "flag") {
+    handleReveal(index);
+    return;
+  }
+
+  handleFlag(index);
+}
+
+function clearTouchState() {
+  if (touchState?.timerId) {
+    window.clearTimeout(touchState.timerId);
+  }
+  touchState = null;
+}
+
+function shouldSuppressMouseClick(event) {
+  return event.pointerType === "touch" || Date.now() < suppressClickUntil;
+}
+
+function isTouchPointer(event) {
+  return event.pointerType === "touch" && isMobileBoard();
 }
 
 function loseGame(hitIndex) {
@@ -367,9 +506,21 @@ function setActiveDifficulty() {
   });
 }
 
+function setActiveTouchMode() {
+  modeButtons.forEach((button) => {
+    const isActive = button.dataset.touchMode === touchMode;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+}
+
 function getLevelConfig(level) {
+  if (level === "intermediate" && isMobileBoard()) {
+    return { ...LEVELS.intermediate, rows: 21, cols: 12 };
+  }
+
   if (level === "expert" && isMobileBoard()) {
-    return { ...LEVELS.expert, rows: 30, cols: 16 };
+    return { ...LEVELS.expert, rows: 40, cols: 12 };
   }
 
   return LEVELS[level];
@@ -395,6 +546,17 @@ difficultyButtons.forEach((button) => {
     const level = button.dataset.level;
     if (level && LEVELS[level]) {
       startGame(level);
+    }
+  });
+});
+
+modeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const mode = button.dataset.touchMode;
+
+    if (mode === "reveal" || mode === "flag") {
+      touchMode = mode;
+      setActiveTouchMode();
     }
   });
 });
