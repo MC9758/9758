@@ -242,7 +242,6 @@ function handleTouchStart(event, index) {
     return;
   }
 
-  event.preventDefault();
   suppressClickUntil = Date.now() + 900;
   suppressContextUntil = Date.now() + 1200;
   clearTouchState();
@@ -278,6 +277,8 @@ function handleTouchMove(event, index) {
 
   if (movedX > TOUCH_MOVE_CANCEL_PX || movedY > TOUCH_MOVE_CANCEL_PX) {
     clearTouchState();
+    suppressClickUntil = Date.now() + 900;
+    suppressContextUntil = Date.now() + 1200;
   }
 }
 

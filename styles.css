@@ -399,7 +399,7 @@ h1 {
     height: var(--cell-size);
     border-width: 1px;
     font-size: clamp(0.48rem, calc(var(--cell-size) * 0.58), 1rem);
-    touch-action: none;
+    touch-action: manipulation;
   }
 }
 
