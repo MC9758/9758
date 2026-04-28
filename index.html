@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>扫雷</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="game-panel" aria-label="扫雷游戏">
+      <header class="top-bar">
+        <div>
+          <p class="eyebrow">Minesweeper</p>
+          <h1>扫雷</h1>
+        </div>
+        <div class="difficulty-tabs" role="tablist" aria-label="难度选择">
+          <button class="difficulty-button is-active" type="button" data-level="beginner">初级</button>
+          <button class="difficulty-button" type="button" data-level="intermediate">中级</button>
+          <button class="difficulty-button" type="button" data-level="expert">高级</button>
+        </div>
+      </header>
+
+      <div class="status-bar" aria-live="polite">
+        <div class="meter" aria-label="剩余雷数">
+          <span class="meter-label">雷</span>
+          <span id="mine-counter" class="meter-value">010</span>
+        </div>
+        <button id="reset-button" class="reset-button" type="button" aria-label="重新开始">🙂</button>
+        <div class="meter" aria-label="计时器">
+          <span class="meter-label">秒</span>
+          <span id="timer" class="meter-value">000</span>
+        </div>
+      </div>
+
+      <div class="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="扫雷棋盘"></div>
+      </div>
+
+      <footer class="hint-row">
+        <span>左键翻开</span>
+        <span>右键插旗</span>
+        <span>左右键数字快速展开</span>
+      </footer>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="assertive"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
